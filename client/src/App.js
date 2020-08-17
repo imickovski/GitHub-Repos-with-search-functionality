@@ -10,7 +10,7 @@ function App() {
   const [public_repos, setPublicRepos] = useState('');
   const [avatar_url, setAvatar] = useState('');
   // This is the Repos Array from the User
-  const [repos, setGithubRepos] = useState('');
+  const [repos, setGithubRepos] = useState([]);
 
 
 
@@ -48,8 +48,6 @@ function App() {
       });
   }, []);
 
-  console.log(repos)
-
   return (
     <div className="App">
       <h1>Github Search </h1>
@@ -73,12 +71,13 @@ function App() {
         <h1>Repos: {public_repos}</h1>
       </div>
 
-      {/* 
-      {repos.map(e =>
-        <ul key={e.id}>
-          <li>{e.name}</li>
-        </ul>
-      )} */}
+      <div>
+        {repos.map(e =>
+          <ul key={e.id}>
+            <li>{e.name}</li>
+          </ul>
+        )}
+      </div>
 
     </div>
   );
