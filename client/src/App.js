@@ -40,7 +40,7 @@ function App() {
     fetch("https://api.github.com/users/imickovski/repos")
       .then(res => res.json())
       .then(repos => {
-        // console.log(repos)
+        console.log(repos)
         setGithubRepos(repos)
       });
   }, []);
@@ -53,13 +53,13 @@ function App() {
   // Filtering the Repos after search
   const filterRepos = repos.filter(repo => {
     // console.log(repo)
-    if(handleNameChange) {
+    if (handleNameChange) {
       return (repo.name.toLowerCase().includes(search.toLowerCase()));
     }
   })
 
   return (
-    
+
     <div className="App">
       <h1>Github Search </h1>
 
@@ -75,24 +75,27 @@ function App() {
         />
       </form>
 
-      {/* Rendering the list of the repos */}
-      <div>
-        {filterRepos.map(e =>
-          <ul key={e.id}>
-            <li>{e.name}</li>
-          </ul>
-        )}
-      </div>
+      <div className="profileAndRepos">
 
-      {/* Rendering The User Data */}
-      <div>
-        <h1><img src={avatar_url} /></h1>
-        <h1>{name}</h1>
-        <h1>{login}</h1>
-        <h1>{location}</h1>
-        <h1>Repos: {public_repos}</h1>
-      </div>
+        {/* Rendering The User Data */}
+        <div>
+          <h1><img src={avatar_url} /></h1>
+          <h1>{name}</h1>
+          <h1>{login}</h1>
+          <h1>{location}</h1>
+          <h1>Repos: {public_repos}</h1>
+        </div>
 
+        {/* Rendering the list of the repos */}
+        <div>
+          {filterRepos.map(e =>
+            <ul key={e.id}>
+              <li>{e.name}</li>
+            </ul>
+          )}
+        </div>
+
+      </div>
     </div>
   );
 }

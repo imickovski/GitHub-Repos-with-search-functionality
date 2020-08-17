@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+/* Styling for the Github Search  */
+
+.profileAndRepos {
+  display: flex;
+  justify-content: space-around;
+}
