@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { STATES } from 'mongoose';
+// import { STATES } from 'mongoose';
 
 function App() {
   const [name, setName] = useState('');
@@ -14,16 +14,7 @@ function App() {
 
   const [search, setSearch] = useState('');
 
-  // Calling imickovski username from the Github API 
-  useEffect(() => {
-    fetch('https://api.github.com/users/imickovski')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        setData(data)
-      });
-  }, [])
-
+  // Implementing the Data into the states
   const setData = ({
     name,
     login,
@@ -38,27 +29,52 @@ function App() {
     setAvatar(avatar_url);
   }
 
-  // useEffect(() => {
-  //   fetch('"https://api.github.com/users/example/repos"')
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data)
-  //   })
-  // }, [])
+  // Calling imickovski username from the Github API 
+  useEffect(() => {
+    fetch("https://api.github.com/users/imickovski")
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setData(data)
+      });
+  }, [])
 
+  // Calling the username's repos
+  useEffect(() => {
+    fetch("https://api.github.com/users/imickovski/repos")
+      .then(res => res.json())
+      .then(repos => {
+        console.log(repos)
+        // setData(data)
+      });
+  }, [])
+
+
+
+
+  console.log(name)
   return (
     <div className="App">
       <h1>Github Search </h1>
       <form>
-        <label htmlfor='repos'> Search Repos</label>
+        <label htmlFor='repos'> Search Repos</label>
         <input
           type='text'
           name='repos'
           id='repos'
+          placeholder='Find a repository'
         // value={state.search}
         // onChange={handleNameChange}
         />
       </form>
+
+      <div>
+        <h1><img src={avatar_url} /></h1>
+        <h1>{name}</h1>
+        <h1>{login}</h1>
+        <h1>{location}</h1>
+        <h1>Repos: {public_repos}</h1>
+      </div>
     </div>
   );
 }
