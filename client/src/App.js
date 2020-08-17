@@ -8,6 +8,8 @@ function App() {
   const [location, setLocation] = useState('');
   const [public_repos, setPublicRepos] = useState('');
   const [avatar_url, setAvatar] = useState('');
+  const [followers, setFollowers] = useState('');
+  const [following, setFollowing] = useState('');
   // Repos Array from the User
   const [repos, setGithubRepos] = useState([]);
   // Search state for the search bar
@@ -20,12 +22,16 @@ function App() {
     location,
     public_repos,
     avatar_url,
+    followers,
+    following,
   }) => {
     setName(name);
     setLogin(login);
     setLocation(location);
     setPublicRepos(public_repos);
     setAvatar(avatar_url);
+    setFollowers(followers);
+    setFollowing(following);
   }
 
   // Calling imickovski username from the Github API 
@@ -33,7 +39,7 @@ function App() {
     fetch("https://api.github.com/users/imickovski")
       .then(res => res.json())
       .then(data => {
-        // console.log(data)
+        console.log(data)
         setData(data)
       });
     // Calling the username's repos
@@ -79,11 +85,13 @@ function App() {
 
         {/* Rendering The User Data */}
         <div>
-          <h1><img src={avatar_url} /></h1>
-          <h1>{name}</h1>
-          <h1>{login}</h1>
-          <h1>{location}</h1>
-          <h1>Repos: {public_repos}</h1>
+          <h3><img src={avatar_url} /></h3>
+          <h3>{name}</h3>
+          <h3>{login}</h3>
+          <h3>Location: {location}</h3>
+          <h3>Repos: {public_repos}</h3>
+          <h3>Followers: {followers}</h3>
+          <h3>Following: {following}</h3>
         </div>
 
         {/* Rendering the list of the repos */}
