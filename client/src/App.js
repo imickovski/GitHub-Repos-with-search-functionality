@@ -7,8 +7,10 @@ function App() {
   const [name, setName] = useState('');
   const [login, setLogin] = useState('');
   const [location, setLocation] = useState('');
-  const [public_repos, setRepos] = useState('');
+  const [public_repos, setPublicRepos] = useState('');
   const [avatar_url, setAvatar] = useState('');
+  // This is the Repos Array from the User
+  const [repos, setGithubRepos] = useState('');
 
 
 
@@ -20,12 +22,12 @@ function App() {
     login,
     location,
     public_repos,
-    avatar_url
+    avatar_url,
   }) => {
     setName(name);
     setLogin(login);
     setLocation(location);
-    setRepos(public_repos);
+    setPublicRepos(public_repos);
     setAvatar(avatar_url);
   }
 
@@ -34,25 +36,20 @@ function App() {
     fetch("https://api.github.com/users/imickovski")
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         setData(data)
       });
-  }, [])
-
-  // Calling the username's repos
-  useEffect(() => {
+    // Calling the username's repos
     fetch("https://api.github.com/users/imickovski/repos")
       .then(res => res.json())
       .then(repos => {
-        console.log(repos)
-        // setData(data)
+        // console.log(repos)
+        setGithubRepos(repos)
       });
-  }, [])
+  }, []);
 
+  console.log(repos)
 
-
-
-  console.log(name)
   return (
     <div className="App">
       <h1>Github Search </h1>
@@ -63,7 +60,7 @@ function App() {
           name='repos'
           id='repos'
           placeholder='Find a repository'
-        // value={state.search}
+          value={search}
         // onChange={handleNameChange}
         />
       </form>
@@ -75,6 +72,14 @@ function App() {
         <h1>{location}</h1>
         <h1>Repos: {public_repos}</h1>
       </div>
+
+      {/* 
+      {repos.map(e =>
+        <ul key={e.id}>
+          <li>{e.name}</li>
+        </ul>
+      )} */}
+
     </div>
   );
 }
