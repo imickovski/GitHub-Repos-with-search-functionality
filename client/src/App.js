@@ -37,14 +37,14 @@ function App() {
 
   useEffect(() => {
     // Calling username from the Github API 
-    fetch("https://api.github.com/users/${}")
+    fetch("https://api.github.com/users/imickovski")
       .then(res => res.json())
       .then(data => {
         // console.log(data)
         setData(data)
       });
     // Calling the username's repos
-    fetch("https://api.github.com/users/${}/repos")
+    fetch("https://api.github.com/users/imickovski/repos")
       .then(res => res.json())
       .then(repos => {
         // console.log(repos)
@@ -52,7 +52,8 @@ function App() {
       });
   }, []);
 
-  const handleNameChange = event => {
+
+  const handleRepoChange = event => {
     // console.log(event.target.value)
     setSearchRepo(event.target.value)
   }
@@ -60,7 +61,7 @@ function App() {
   // Filtering the Repos after search
   const filterRepos = repos.filter(repo => {
     // console.log(repo)
-    if (handleNameChange) {
+    if (handleRepoChange) {
       return (repo.name.toLowerCase().includes(searchRepo.toLowerCase()));
     }
   })
@@ -69,23 +70,9 @@ function App() {
   return (
 
     <>
-
       <div className='navbar'>Github Search </div>
 
-      {/* Search field for user */}
-      <div className='search'>
-        <Form>
-          <Form.Group>
-            <Form.Input
-              type='text'
-              name='user'
-              id='user'
-              placeholder='Find a user'
-            />
-            <Form.Button content='Search' />
-          </Form.Group>
-        </Form>
-        
+      <div className='search'>        
         {/* Search field for the Repos */}
         <Form>
           <Form.Group>
@@ -95,7 +82,7 @@ function App() {
               id='repos'
               placeholder='Find a repository'
               value={searchRepo}
-              onChange={handleNameChange}
+              onChange={handleRepoChange}
             />
           </Form.Group>
         </Form>
@@ -138,7 +125,6 @@ function App() {
           </ul>
         )}
         </div>
-
       </div>
     </>
   );
