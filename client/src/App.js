@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import { Card, Icon, Image, Form } from 'semantic-ui-react';
 import './App.css';
 
 function App() {
@@ -10,10 +10,11 @@ function App() {
   const [avatar_url, setAvatar] = useState('');
   const [followers, setFollowers] = useState('');
   const [following, setFollowing] = useState('');
+  const [error, setError] = useState(null);
   // Repos Array from the User
   const [repos, setGithubRepos] = useState([]);
-  // Search state for the search bar
-  const [search, setSearch] = useState('');
+  // Search state for the search bar for Repos
+  const [searchRepo, setSearchRepo] = useState('');
 
   // Implementing the Data into the states
   const setData = ({
@@ -34,77 +35,112 @@ function App() {
     setFollowing(following);
   }
 
-  // Calling imickovski username from the Github API 
   useEffect(() => {
-    fetch("https://api.github.com/users/imickovski")
+    // Calling username from the Github API 
+    fetch("https://api.github.com/users/${}")
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         setData(data)
       });
     // Calling the username's repos
-    fetch("https://api.github.com/users/imickovski/repos")
+    fetch("https://api.github.com/users/${}/repos")
       .then(res => res.json())
       .then(repos => {
-        console.log(repos)
+        // console.log(repos)
         setGithubRepos(repos)
       });
   }, []);
 
   const handleNameChange = event => {
     // console.log(event.target.value)
-    setSearch(event.target.value)
+    setSearchRepo(event.target.value)
   }
 
   // Filtering the Repos after search
   const filterRepos = repos.filter(repo => {
     // console.log(repo)
     if (handleNameChange) {
-      return (repo.name.toLowerCase().includes(search.toLowerCase()));
+      return (repo.name.toLowerCase().includes(searchRepo.toLowerCase()));
     }
   })
 
+  // console.log(props)
   return (
 
-    <div className="App">
-      <h1>Github Search </h1>
+    <>
 
-      <form>
-        <label htmlFor='repos'> Search Repos</label>
-        <input
-          type='text'
-          name='repos'
-          id='repos'
-          placeholder='Find a repository'
-          value={search}
-          onChange={handleNameChange}
-        />
-      </form>
+      <div className='navbar'>Github Search </div>
+
+      {/* Search field for user */}
+      <div className='search'>
+        <Form>
+          <Form.Group>
+            <Form.Input
+              type='text'
+              name='user'
+              id='user'
+              placeholder='Find a user'
+            />
+            <Form.Button content='Search' />
+          </Form.Group>
+        </Form>
+        
+        {/* Search field for the Repos */}
+        <Form>
+          <Form.Group>
+            <Form.Input
+              type='text'
+              name='repos'
+              id='repos'
+              placeholder='Find a repository'
+              value={searchRepo}
+              onChange={handleNameChange}
+            />
+          </Form.Group>
+        </Form>
+      </div>
 
       <div className="profileAndRepos">
-
         {/* Rendering The User Data */}
-        <div>
-          <h3><img src={avatar_url} /></h3>
-          <h3>{name}</h3>
-          <h3>{login}</h3>
-          <h3>Location: {location}</h3>
-          <h3>Repos: {public_repos}</h3>
-          <h3>Followers: {followers}</h3>
-          <h3>Following: {following}</h3>
+        <div className='ui card'>
+          <Card>
+            <Image src={avatar_url} wrapped ui={false} />
+            <Card.Content>
+              <Card.Header>{name}</Card.Header>
+              <Card.Meta>
+                <span>{login}</span>
+              </Card.Meta>
+              <Card.Meta>
+                <span>{location}</span>
+              </Card.Meta>
+              <Card.Description>
+                Repositories: {public_repos}
+              </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <Icon name='user' />
+                Followers: {followers}
+            </Card.Content>
+            <Card.Content extra>
+              <Icon name='user' />
+                Following: {following}
+            </Card.Content>
+          </Card>
         </div>
 
         {/* Rendering the list of the repos */}
         <div>
+          My Repositories:
           {filterRepos.map(e =>
-            <ul key={e.id}>
-              <li>{e.name}</li>
-            </ul>
-          )}
+          <ul key={e.id}>
+            <li>{e.name}</li>
+          </ul>
+        )}
         </div>
 
       </div>
-    </div>
+    </>
   );
 }
 
