@@ -10,7 +10,6 @@ function App() {
   const [avatar_url, setAvatar] = useState('');
   const [followers, setFollowers] = useState('');
   const [following, setFollowing] = useState('');
-  const [error, setError] = useState(null);
   // Repos Array from the User
   const [repos, setGithubRepos] = useState([]);
   // Search state for the search bar for Repos
