@@ -35,7 +35,7 @@ function App() {
   }
 
   useEffect(() => {
-    // Calling username from the Github API 
+    // Calling imickovski username from the Github API 
     fetch("https://api.github.com/users/imickovski")
       .then(res => res.json())
       .then(data => {
@@ -67,7 +67,6 @@ function App() {
 
   // console.log(props)
   return (
-
     <>
       <div className='navbar'>Github Search </div>
 
